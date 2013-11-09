@@ -1,0 +1,20 @@
+<h2>Cores</h2>
+
+<h3 ng-show="data">Cores</h3>
+
+  <div class="span3">
+    <ul>
+      <li ng-repeat="core in cores.status" ng-click="setCore(core)">{{core.name}}</li>
+    </ul>
+  </div>
+  <div class="span6" ng-show="currentCore"> 
+    <ul>
+<li>{{currentCore.name}}</li>
+<li>{{currentCore.instanceDir}}</li>
+<li>{{currentCore.dataDir}}</li>
+<li>{{currentCore.startTime}}</li>
+<li>{{currentCore.uptime}}</li>
+</ul>
+  </div>
+
+<button class="btn" ng-click="reload()">Reload</button>

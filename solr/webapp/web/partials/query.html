@@ -1,0 +1,28 @@
+<h2>query</h2>
+
+<div class="span3">
+  Request-Handler
+  <input ng-model="query.handler"/><br/>
+  q <input ng-model="query.q"/><br/>
+  fq <input ng-model="query.fq"/><br/>
+  sort <input ng-model="query.sort"/><br/>
+  start, rows <input ng-model="query.start"/> <input ng-model="query.rows"/><br/>
+  fl <input ng-model="query.fl"/><br/>
+  df <input ng-model="query.df"/><br/>
+  Raw Query Params <input ng-model="query.raw"/><br/>
+  wt <input ng-model="query.wt"/><br/>
+  <input type="checkbox" ng-model="query.indent"/> indent<br/>
+  <input type="checkbox" ng-model="query.debug"/> debugQuery<br/>
+  <input type="checkbox" ng-model="query.dismax"/> dismax<br/>
+  <input type="checkbox" ng-model="query.edismax"/> edismax<br/>
+  <input type="checkbox" ng-model="query.hl"/> hl<br/>
+  <input type="checkbox" ng-model="query.facet"/> facet<br/>
+  <input type="checkbox" ng-model="query.spatial"/> spatial<br/>
+  <input type="checkbox" ng-model="query.spellcheck"/> spellcheck<br/>
+
+  <button class="btn" ng-click="search()">Execute Query</button>
+</div>
+
+<div class="span6">
+  <iframe id="result" name="result" src=""/>
+</div>

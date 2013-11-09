@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="solr-admin" ng-controller="RootCtrl">
+
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<head>
+    
+  <title>Solr Admin</title>
+    
+  <link rel="icon" type="image/ico" href="img/favicon.ico?_=${version}">
+
+  <link rel="stylesheet" type="text/css" href="css/styles/common.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/analysis.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/cloud.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/cores.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/dashboard.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/dataimport.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/index.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/java-properties.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/logging.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/menu.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/plugins.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/documents.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/query.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/replication.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/schema-browser.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/styles/threads.css?_=${version}">
+  <link rel="stylesheet" type="text/css" href="css/chosen.css?_=${version}">
+
+  <meta http-equiv="x-ua-compatible" content="IE=9">
+    
+  <script src="lib/jquery.js"></script>
+  <script src="lib/bootstrap.js"></script>
+  <script src="lib/angular.js"></script>
+  <script src="lib/angular-strap.js"></script>
+  <script src="lib/moment.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/rootController.js"></script>
+  <script src="js/controllers/index.js"></script>
+  <script src="js/dashboardController.js"></script>
+  <script src="js/loggingController.js"></script>
+  <script src="js/coresController.js"></script>
+  <script src="js/cloudController.js"></script>
+  <script src="js/javaPropertiesController.js"></script>
+  <script src="js/threadsController.js"></script>
+  <script src="js/overviewController.js"></script>
+  <script src="js/analysisController.js"></script>
+  <script src="js/configController.js"></script>
+  <script src="js/dataimportController.js"></script>
+  <script src="js/documentsController.js"></script>
+  <script src="js/pluginsController.js"></script>
+  <script src="js/queryController.js"></script>
+  <script src="js/replicationController.js"></script>
+  <script src="js/schemaController.js"></script>
+  <script src="js/schemaBrowserController.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/services/dashboard.js"></script>
+  <script src="js/services/index.js"></script>
+  <script src="js/filters.js"></script>
+</head>
+<body>
+    
+  <div id="wrapper">
+    
+    <div id="header">
+            
+      <a href="./" id="solr"><span>Apache SOLR</span></a>
+
+      <p id="environment">&nbsp;</p>
+
+    </div>
+
+    <div id="main" class="clearfix">
+    
+      <div id="init-failures">
+
+          <h2>SolrCore Initialization Failures</h2>
+          <ul></ul>
+          <p>Please check your logs for more information</p>
+                
+      </div>
+
+      <div id="content-wrapper">
+        <div id="content" ng-view>
+          &nbsp;
+        </div>
+      </div>
+            
+      <div id="menu-wrapper">
+        <div>
+                  
+          <ul id="menu">
+
+            <li id="index" class="global"><p><a href="#/">Dashboard</a></p></li>
+
+            <li id="logging" class="global"><p><a href="#/~logging">Logging</a></p>
+              <ul>
+                <li class="level"><a href="#/~logging/level">Level</a></li>
+              </ul>
+            </li>
+
+            <li id="cloud" class="global optional"><p><a href="#/~cloud">Cloud</a></p>
+              <ul>
+                <li class="tree"><a href="#/~cloud?view=tree">Tree</a></li>
+                <li class="graph"><a href="#/~cloud">Graph</a></li>
+                <li class="rgraph"><a href="#/~cloud?view=rgraph">Graph (Radial)</a></li>
+                <li class="dump"><a href="#/~cloud">Dump</a></li>
+              </ul>
+            </li>
+
+            <li id="cores" class="global"><p><a href="#/~cores">Core Admin</a></p></li>
+
+            <li id="java-properties" class="global"><p><a href="#/~java-properties">Java Properties</a></li>
+
+            <li id="threads" class="global"><p><a href="#/~threads">Thread Dump</a></p></li>
+            
+          </ul>
+
+          <div id="core-selector">
+            <div id="has-cores" ng-show="cores">
+              <select data-placeholder="Core Selector">
+                <option ng-click="setCore(null)">No core selected...</option>
+                <option ng-repeat="core in cores.status" ng-click="setCore(core)" value="{{core.name}}">{{core.name}}</option>
+              </select>
+            </div>
+            <p id="has-no-cores" ng-show="!core"><a href="#/~cores">
+              No cores available
+              <span>Go and create one</span>
+            </a></p>
+          </div>
+          <div id="core-menu">
+
+            <ul ng-show="core">
+              <li class="overview"><a ng-href="#/{{core}}">Overview</a></li>
+              <li class="analysis"><a ng-href="#/{{core}}/analysis">Analysis</a></li>
+              <li class="config"><a ng-href="#/{{core}}/config">Config</a></li>
+              <li class="dataimport"><a ng-href="#/{{core}}/dataimport">Data Import</a></li>
+              <li class="documents"><a ng-href="#/{{core}}/documents">Documents</a></li>
+              <li class="ping"><a ng-rel="{{base}}/{{core}}/admin/ping">Ping</a></li>
+              <li class="plugins"><a ng-href="#/{{core}}/plugins">Plugins</a></li>
+              <li class="query"><a ng-href="#/{{core}}/query">Query</a></li>
+              <li class="replication"><a ng-href="#/{{core}}/replication">Replication</a></li>
+              <li class="schema"><a ng-href="#/{{core}}/schema">Schema</a></li>
+              <li class="schema-browser"><a ng-href="#/{{core}}/schemabrowser">Schema Browser</a></li>
+           </ul>
+          </div>
+                  
+        </div>
+      </div>
+            
+      <div id="meta">
+                
+        <ul>
+                    
+          <li class="documentation"><a href="http://lucene.apache.org/solr/"><span>Documentation</span></a></li>
+          <li class="issues"><a href="http://issues.apache.org/jira/browse/SOLR"><span>Issue Tracker</span></a></li>
+          <li class="irc"><a href="http://webchat.freenode.net/?channels=#solr"><span>IRC Channel</span></a></li>
+          <li class="mailinglist"><a href="http://wiki.apache.org/solr/UsingMailingLists"><span>Community forum</span></a></li>
+          <li class="wiki-query-syntax"><a href="http://wiki.apache.org/solr/SolrQuerySyntax"><span>Solr Query Syntax</span></a></li>
+                    
+        </ul>
+                
+      </div>
+            
+    </div>
+    
+  </div>
+
+  <div id="connection_status">
+
+    <span>Connection lost …</span>
+
+  </div>
+  
+</body>
+</html>

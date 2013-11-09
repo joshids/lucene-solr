@@ -1,0 +1,20 @@
+
+      $.get
+      (
+        core_basepath + '/admin/file/?file=admin-extra.menu-top.html&contentType=text/html;charset=utf-8',
+        function( menu_extra )
+        {
+          app.core_menu
+            .prepend( menu_extra );
+        }
+      );
+
+      $.get
+      (
+        core_basepath + '/admin/file/?file=admin-extra.menu-bottom.html&contentType=text/html;charset=utf-8',
+        function( menu_extra )
+        {
+          app.core_menu
+            .append( menu_extra );
+        }
+      );
