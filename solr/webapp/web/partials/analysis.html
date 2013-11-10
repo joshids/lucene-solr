@@ -1,1 +1,146 @@
-<h2>analysis</h2>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<div id="analysis">
+
+  <div class="block analysis-error" id="analysis-handler-missing">
+
+    <div class="head">This Functionality requires the <code>/analysis/field</code> Handler to be registered and active!</div>
+
+  </div>
+
+  <div class="block analysis-error" id="analysis-error">
+
+    <div class="body"></div>
+
+  </div>
+
+  <div id="analysis-holder">
+
+    <div id="field-analysis">
+              
+      <form method="get">
+                
+        <ul class="clearfix">
+                    
+          <li class="index">
+            <label for="analysis_fieldvalue_index">Field Value (Index)</label>
+            <textarea ng-model="indexTimeText" name="analysis.fieldvalue" id="analysis_fieldvalue_index"></textarea>
+                        
+          </li>
+                    
+          <li class="query">
+                        
+            <label for="analysis_fieldvalue_query">Field Value (Query)</label>
+            <textarea ng-model="queryTimeText" name="analysis.query" id="analysis_fieldvalue_query"></textarea>
+                        
+          </li>
+
+          <li class="settings-holder clearfix">
+            <div class="settings clearfix">
+
+              <label for="type_or_name">Analyse Fieldname / FieldType:</label>
+              <select id="field_or_type" ng-model="fieldOrType" ng-options="x.name group by x.type for x in fieldsAndTypes">
+              </select>
+{{fieldOrType.name}} / {{fieldOrType.type}}
+<!--
+              <select id="type_or_name">
+                <option class="loader" value="" ng-show="isLoading">Loading ... </option>
+                <optgroup label="Fields" ng-show="!isLoading">
+                  <option ng-repeat="field in fields" value="fieldname={{field}}">{{field}}</option>
+                </optgroup>
+
+                <optgroup label="Types" ng-show="!isLoading">
+                  <option ng-repeat="type in types" value="fieldtype={{type}}">{{type}}</option>
+                </optgroup>
+              </select>
+-->
+              <a id="tor_schema" href="#"><span>Schema Browser</span>&nbsp;</a>
+
+              <div class="buttons clearfix">
+
+                <button type="submit" ng-click="analyzeText()"><span>Analyse Values</span></button>
+
+                <div class="verbose_output active">
+                  <a ng-click="toggleVerbose()">Verbose Output</a>
+                </div>
+
+              </div>
+
+            </div>
+          </li>
+                    
+        </ul>
+                
+      </form>
+            
+    </div>
+        
+    <div id="analysis-result" class="clearfix verbose_output" style="display: block">
+      <div ng-class="{{type}}" ng-repeat="type in ['index','query']">
+	<table border="0" cellspacing="0" cellpadding="0">
+	  <tbody ng-repeat="component in analysisResult.index">
+	    <tr class="step">
+	      <td class="part analyzer">
+		<div>
+		  <abbr title="{{component.name}}">{{component.short_name}}</abbr>
+		</div>
+	      </td>
+
+	      <td class="part legend">
+		<div class="holder">
+		  <table border="0" cellspacing="0" cellpadding="0">
+		    <tr>
+		      <td>
+			<table border="0" cellspacing="0" cellpadding="0">
+			  <tr ng-class="{{generate_class_name( short_key )}}" ng-repeat="legend in component.legend">
+			   <td>
+			     <!--<span ng-show="legend.key"><abbr title="legend.key">{{legend.used_key}}</abbr></span>-->
+			     <span>{{legend}}</span>
+			   </td>
+			  </tr>
+			</table>
+		      </td>
+		    </tr>
+		  </table>
+		 </div>
+	       </td> <!-- end legend -->
+
+	      <td class="part data" ng-class="{spacer: row.length()==0}" ng-repeat="row in component.rows">
+		<div class="holder">
+		  <table border="0" cellspacing="0" cellpadding="0" ng-show="row.length()&gt;0">
+		    <tr class="details">
+		      <td class="details">
+			<table border="0" cellspacing="0" cellpadding="0">
+			  <tr class="classes.join( ' ' )" ng-repeat="data in row">
+			    <td>{{data}}</td>
+			  </tr>
+			</table>
+		      </td>
+		    </tr>
+		  </table>
+		</div>
+	      </td>
+	    </tr>
+	  </tbody>
+	</table>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
