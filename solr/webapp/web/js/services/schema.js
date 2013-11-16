@@ -260,11 +260,13 @@ var analyzeText = function($http, base, fieldOrType, indexTimeText, queryTimeTex
       } else {
         result = data.analysis.field_types[fieldOrType.name];
       }
+//      console.dir(result);
       var finalResult = {
         index: restructureResults(result.index),
         query: restructureResults(result.query)
       };
-      console.dir(data);
+//      console.dir(data);
+console.log("finalResult:");
       console.dir(finalResult);
       callback(null, finalResult);
     });
@@ -302,17 +304,20 @@ var shortenAnalyzerName = function(analyzer_name) {
 };
 
 var restructureResults = function(data) {
+  if (data === undefined) {
+    return [];
+  }
   var rows = [];
   // restructure
   for (var i=0; i<data.length; i+=2) {
     var className = data[i].replace( /(\$1)+$/g, '' );
     var shortName = shortenAnalyzerName(className);
     var tokenDetails = data[i+1];
-    var row = {className: className, shortName: shortName, legend: generateLegend(tokenDetails)};
+    var row = {name: className, shortName: shortName, legend: generateLegend(tokenDetails)};
     if ("string" === typeof tokenDetails) {
-      row.data = [{'text': tokenDetails}];
+      row.rows = [{'text': tokenDetails}];
     } else {
-      row.data = tokenDetails;
+      row.rows = tokenDetails;
     }
     rows.push(row);
   }

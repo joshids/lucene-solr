@@ -29,9 +29,11 @@ function AnalysisCtrl($scope, $rootScope, $location, SchemaService) {
 
   $scope.analyzeText = function() {
     console.log("Analysing " + $scope.fieldOrType.name + " which is a " + $scope.fieldOrType.type);
-    SchemaService.analyzeText($scope.base, $scope.fieldOrType, $scope.indexTimeText, $scope.queryTimeText, $scope.isVerbose, function(analysisResult) {
+    SchemaService.analyzeText($scope.base, $scope.fieldOrType, $scope.indexTimeText, $scope.queryTimeText, $scope.isVerbose, function(err, analysisResult) {
+       if (err) {alert(err);return;}
        $scope.analysisResult = analysisResult;
-
+       console.dir($scope.analysisResult);
+/*
 $scope.analysisResult = {
   index: [
     {
@@ -70,7 +72,7 @@ $scope.analysisResult = {
   query: [
   ]
 };
-
-//  });
-  }
+*/
+  });
+}
 }
