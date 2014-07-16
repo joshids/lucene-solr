@@ -1,3 +1,5 @@
+This is my version to check angular implementation done by @upayavira
+
 Apache Lucene/Solr
 
 lucene/ is a search engine library
